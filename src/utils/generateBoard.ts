@@ -1,8 +1,8 @@
 import { Board, Cell } from "../types/game";
 
 type GenerateBoardParams = {
-    size: number;
-    mines: number;
+    readonly size: number;
+    readonly mines: number;
 };
 
 export function generateBoard({ size, mines }: GenerateBoardParams): Board {

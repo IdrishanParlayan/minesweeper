@@ -4,9 +4,9 @@ import CellView from "./CellView";
 
 
 type Props = {
-    board: Board;
-    status: GameStatus;
-    onCellPress: (row: number, col: number) => void;
+    readonly board: Board;
+    readonly status: GameStatus;
+    readonly onCellPress: (row: number, col: number) => void;
 };
 
 export default function BoardView({ board, status, onCellPress }: Props) {
