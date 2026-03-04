@@ -2,22 +2,34 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import {Text, StyleSheet, View, Pressable} from "react-native";
 import BoardView from "../components/BoardView";
 import { useGame } from "../hooks/useGame";
+import PauseModal from "../components/PauseModal";
+import ResultModal from "../components/ResultModal";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../navigation/AppNavigator";
+
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
+
 
 export default function GameScreen() {
+    const navigation = useNavigation<NavigationProp>();
+
     const {
         board,
         mode,
         status,
         handleCellPress,
         toggleMode,
+        toggleStatus,
         resetGame,
     } = useGame({ size: 8, mines: 10 });
+
 
     return (
         <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
             <View style={styles.header}>
                 <Text style={styles.title}>Minesweeper</Text>
-                <Text style={styles.subtitle}>{status}</Text>
             </View>
 
             <View style={styles.boardArea}>
@@ -37,10 +49,26 @@ export default function GameScreen() {
                     <Text style={styles.modeText}>Flag</Text>
                 </Pressable>
 
-                <Pressable onPress={resetGame} style={styles.resetBtn}>
-                    <Text style={styles.resetText}>Reset</Text>
+                <Pressable
+                    onPress={() => toggleStatus("idle")}
+                    style={styles.pauseBtn}
+                >
+                    <Text style={styles.pauseText}>Pause</Text>
                 </Pressable>
             </View>
+
+            <PauseModal
+                status={status}
+                onContinue={() => toggleStatus("playing")}
+                onReset={() => resetGame()}
+                onHome={() => navigation.navigate("Home")}
+            />
+
+            <ResultModal status={status}
+                         onHome={() => navigation.navigate("Home")}
+                         onReset={() => resetGame()}
+            />
+
         </SafeAreaView>
     );
 }
@@ -58,8 +86,6 @@ const styles = StyleSheet.create({
     },
 
     title: { fontSize: 26, fontWeight: "800" },
-
-    subtitle: { marginTop: 6, fontSize: 14, opacity: 0.8 },
 
     boardArea: {
         alignItems: "center",
@@ -94,7 +120,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
 
-    resetBtn: {
+    pauseBtn: {
         height: 44,
         paddingHorizontal: 14,
         borderRadius: 14,
@@ -103,7 +129,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
 
-    resetText: {
+    pauseText: {
         fontWeight: "900",
         fontSize: 14,
     },

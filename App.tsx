@@ -1,10 +1,10 @@
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import GameScreen from "./src/screens/GameScreen";
+import AppNavigator from "./src/navigation/AppNavigator";
 
 export default function App() {
   return (
       <SafeAreaProvider>
-        <GameScreen />
+        <AppNavigator/>
       </SafeAreaProvider>
   );
 }

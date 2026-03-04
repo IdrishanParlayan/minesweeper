@@ -1,10 +1,11 @@
 import type { Cell, GameStatus } from "../types/game";
 import {Pressable, StyleSheet, Text, ViewStyle} from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 
 type Props = {
-    cell: Cell;
-    status: GameStatus;
-    onPress: () => void;
+    readonly cell: Cell;
+    readonly status: GameStatus;
+    readonly onPress: () => void;
 };
 
 export default function CellView({ cell, status, onPress }: Props) {
@@ -15,9 +16,9 @@ export default function CellView({ cell, status, onPress }: Props) {
     if (cell.isFlagged) baseStyle.push(styles.cellFlagged);
 
 
-    let label = "";
-    if (cell.isFlagged) label = "🚩"
-    else if (cell.isRevealed && cell.isMine) label = "💣";
+    let label = null;
+    if (cell.isFlagged) label = <FontAwesome name="flag" size={16} color="red" />
+    else if (cell.isRevealed && cell.isMine) label = <FontAwesome name="bomb" size={18} color="red" />;
     else if (cell.isRevealed && cell.adjacentMines > 0) label = String(cell.adjacentMines);
 
     return (
