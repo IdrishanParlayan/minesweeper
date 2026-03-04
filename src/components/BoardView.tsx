@@ -1,6 +1,8 @@
 import {StyleSheet, View} from "react-native";
 import type { Board, GameStatus } from "../types/game";
 import CellView from "./CellView";
+import { colors } from "../theme/theme";
+
 
 
 type Props = {
@@ -33,6 +35,7 @@ const styles = StyleSheet.create({
     wrapper: {
         padding: 8,
         borderRadius: 16,
+        backgroundColor: colors.board,
     },
     row: {
         flexDirection: "row",

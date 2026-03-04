@@ -1,8 +1,9 @@
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import {View, Text, Pressable, StyleSheet, Switch} from "react-native";
 import { BlurView } from "expo-blur";
 import { FontAwesome } from "@expo/vector-icons";
 import {GameStatus} from "../types/game";
 import { useSound } from "../context/SoundContext";
+import { colors, spacing, radius } from "../theme/theme";
 
 type Props = {
     readonly status: GameStatus;
@@ -18,31 +19,39 @@ export default function PauseModal({ status, onContinue, onReset, onHome }: Prop
 
     return (
         <View style={styles.overlay}>
-            <BlurView intensity={80} style={StyleSheet.absoluteFillObject} />
+            <BlurView intensity={60} style={StyleSheet.absoluteFillObject} />
 
             <View style={styles.modal}>
                 <Text style={styles.title}>Game Paused</Text>
 
                 <Pressable style={styles.button} onPress={onContinue}>
-                    <FontAwesome name="chevron-right" size={16} color="black" />
+                    <FontAwesome name="play" size={16} color={colors.text} />
+                    <Text style={styles.buttonText}>Resume</Text>
                 </Pressable>
 
                 <Pressable style={styles.button} onPress={onReset}>
-                    <FontAwesome name="refresh" size={16} color="black" />
+                    <FontAwesome name="refresh" size={16} color={colors.text} />
+                    <Text style={styles.buttonText}>Restart</Text>
                 </Pressable>
 
                 <Pressable style={styles.button} onPress={onHome}>
-                    <FontAwesome name="home" size={16} color="black" />
+                    <FontAwesome name="home" size={16} color={colors.text} />
+                    <Text style={styles.buttonText}>Home</Text>
                 </Pressable>
 
                 <View style={styles.settingRow}>
-                    <FontAwesome name={soundStatus === "on" ? "volume-up" : "volume-off"} size={16} color="black"/>
+                    <View style={styles.iconContainer}>
+                        <FontAwesome name={soundStatus === "on" ? "volume-up" : "volume-off"} size={18} color="white"/>
+                    </View>
 
                     <Text style={styles.settingLabel}>Sound</Text>
 
-                    <Pressable style={styles.toggle} onPress={() => setSoundStatus(soundStatus === "on" ? "off" : "on")}>
-                        <Text style={styles.toggleText}>{soundStatus === "on" ? "ON" : "OFF"}</Text>
-                    </Pressable>
+                    <Switch
+                        value={soundStatus === "on"}
+                        onValueChange={(value) => setSoundStatus(value ? "on" : "off")}
+                        trackColor={{ false: "#334155", true: "#6366F1" }}
+                        thumbColor={"#fff"}
+                    />
                 </View>
             </View>
         </View>
@@ -61,54 +70,61 @@ const styles = StyleSheet.create({
     },
 
     modal: {
-        width: 260,
-        padding: 24,
-        borderRadius: 16,
-        backgroundColor: "white",
+        width: 280,
+        padding: spacing.lg,
+        borderRadius: radius.lg,
+        backgroundColor: colors.surface,
         alignItems: "center",
-        gap: 12,
+        gap: spacing.sm,
+
+        shadowColor: "#000",
+        shadowOpacity: 0.3,
+        shadowRadius: 20,
+        shadowOffset: { width: 0, height: 10 },
+
+        elevation: 10,
     },
 
     title: {
-        fontSize: 20,
-        fontWeight: "700",
-        marginBottom: 10,
+        fontSize: 22,
+        fontWeight: "800",
+        color: colors.text,
+        marginBottom: spacing.sm,
     },
 
     button: {
         width: "100%",
         paddingVertical: 12,
-        borderRadius: 10,
-        borderWidth: 1,
+        borderRadius: radius.md,
+        backgroundColor: colors.primary,
+        flexDirection: "row",
+        justifyContent: "center",
         alignItems: "center",
+        gap: 8,
     },
 
     buttonText: {
         fontSize: 16,
-        fontWeight: "600",
+        fontWeight: "700",
+        color: "white",
     },
 
     settingRow: {
         width: "100%",
         flexDirection: "row",
         alignItems: "center",
-        gap: 10,
-        marginBottom: 6,
+        gap: spacing.sm,
+        marginTop: spacing.sm,
     },
 
     settingLabel: {
         flex: 1,
         fontSize: 16,
+        color: colors.text,
     },
 
-    toggle: {
-        paddingVertical: 4,
-        paddingHorizontal: 12,
-        borderRadius: 10,
-        borderWidth: 1,
-    },
-
-    toggleText: {
-        fontWeight: "700",
-    },
+    iconContainer: {
+        width: 24,
+        alignItems: "center",
+    }
 });

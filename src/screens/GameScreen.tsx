@@ -7,6 +7,8 @@ import ResultModal from "../components/ResultModal";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/AppNavigator";
+import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import { colors, spacing, radius } from "../theme/theme";
 
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
@@ -40,20 +42,20 @@ export default function GameScreen() {
                 <Pressable
                     onPress={() => toggleMode("dig")}
                     style={[styles.modeBtn, mode === "dig" && styles.modeBtnActive]}>
-                    <Text style={styles.modeText}>Dig</Text>
+                    <MaterialCommunityIcons name="pickaxe" size={24} />
                 </Pressable>
 
                 <Pressable
                     onPress={() => toggleMode("flag")}
                     style={[styles.modeBtn, mode === "flag" && styles.modeBtnActive]}>
-                    <Text style={styles.modeText}>Flag</Text>
+                    <FontAwesome name="flag" size={24} color={"red"}/>
                 </Pressable>
 
                 <Pressable
                     onPress={() => toggleStatus("idle")}
                     style={styles.pauseBtn}
                 >
-                    <Text style={styles.pauseText}>Pause</Text>
+                    <MaterialCommunityIcons name="pause" size={24} color={"white"}/>
                 </Pressable>
             </View>
 
@@ -76,61 +78,54 @@ export default function GameScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingHorizontal: 16,
+        backgroundColor: colors.background,
+        paddingHorizontal: spacing.md,
         justifyContent: "center",
     },
 
     header: {
         alignItems: "center",
-        paddingVertical: 8,
+        paddingVertical: spacing.sm,
     },
 
-    title: { fontSize: 26, fontWeight: "800" },
+    title: {
+        fontSize: 26,
+        fontWeight: "800",
+        color: colors.text,
+    },
 
     boardArea: {
         alignItems: "center",
         justifyContent: "flex-start",
-        paddingTop: 12,
+        paddingTop: spacing.md,
     },
 
     controls: {
         flexDirection: "row",
-        justifyContent: "space-between",
         alignItems: "center",
-        gap: 10,
-        paddingTop: 12,
-        paddingBottom: 4,
+        gap: spacing.sm,
+        marginTop: spacing.md,
     },
 
     modeBtn: {
         flex: 1,
         height: 44,
-        borderRadius: 14,
-        borderWidth: 1,
+        borderRadius: radius.md,
+        backgroundColor: colors.surface,
         alignItems: "center",
         justifyContent: "center",
     },
 
     modeBtnActive: {
-        opacity: 0.75,
-    },
-
-    modeText: {
-        fontWeight: "800",
-        fontSize: 14,
+        backgroundColor: colors.primary,
     },
 
     pauseBtn: {
         height: 44,
-        paddingHorizontal: 14,
-        borderRadius: 14,
-        borderWidth: 1,
+        paddingHorizontal: spacing.md,
+        borderRadius: radius.md,
+        backgroundColor: colors.surface,
         alignItems: "center",
         justifyContent: "center",
-    },
-
-    pauseText: {
-        fontWeight: "900",
-        fontSize: 14,
     },
 });

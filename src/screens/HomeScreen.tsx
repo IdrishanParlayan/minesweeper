@@ -5,6 +5,8 @@ import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../navigation/AppNavigator";
 import { useSound} from "../context/SoundContext";
 import { FontAwesome } from "@expo/vector-icons";
+import { Switch } from "react-native";
+import { colors, spacing, radius } from "../theme/theme";
 
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
@@ -30,16 +32,18 @@ export default function HomeScreen() {
                 <Text style={styles.settingsTitle}>Settings</Text>
 
                 <View style={styles.settingRow}>
-                    <FontAwesome  name={soundStatus === "on" ? "volume-up" : "volume-off"} size={18} color="black"/>
+                    <View style={styles.iconContainer}>
+                        <FontAwesome name={soundStatus === "on" ? "volume-up" : "volume-off"} size={18} color="white"/>
+                    </View>
 
                     <Text style={styles.settingLabel}>Sound</Text>
 
-                    <Pressable
-                        style={ [styles.toggleButton, soundStatus === "on" && styles.toggleActive] }
-                        onPress={() => setSoundStatus(soundStatus === "on" ? "off" : "on") }
-                    >
-                        <Text style={styles.toggleText}> {soundStatus === "on" ? "ON" : "OFF"}</Text>
-                    </Pressable>
+                    <Switch
+                        value={soundStatus === "on"}
+                        onValueChange={(value) => setSoundStatus(value ? "on" : "off")}
+                        trackColor={{ false: "#334155", true: "#6366F1" }}
+                        thumbColor={"#fff"}
+                    />
                 </View>
             </View>
         </SafeAreaView>
@@ -49,45 +53,49 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingHorizontal: 20,
+        backgroundColor: colors.background,
+        paddingHorizontal: spacing.lg,
         justifyContent: "center",
-        alignItems: "center",
-        gap: 40,
+        gap: spacing.xl,
     },
 
     header: {
         alignItems: "center",
-        gap: 20,
+        gap: spacing.lg,
     },
 
     title: {
-        fontSize: 40,
-        fontWeight: "800",
+        fontSize: 48,
+        fontWeight: "900",
+        color: colors.text,
     },
 
     startButton: {
+        backgroundColor: colors.primary,
         paddingVertical: 16,
         paddingHorizontal: 40,
-        borderRadius: 16,
+        borderRadius: radius.md,
         borderWidth: 1,
         alignItems: "center",
-        justifyContent: "center",
     },
 
     startText: {
+        color: colors.text,
         fontSize: 18,
         fontWeight: "700",
     },
 
     settingsCard: {
         width: "100%",
-        borderWidth: 1,
-        borderRadius: 18,
-        padding: 20,
-        gap: 16,
+        backgroundColor: colors.surface,
+        borderRadius: radius.lg,
+        padding: spacing.lg,
+        gap: spacing.md,
+        alignItems: "center",
     },
 
     settingsTitle: {
+        color: colors.text,
         fontSize: 18,
         fontWeight: "700",
     },
@@ -100,21 +108,12 @@ const styles = StyleSheet.create({
 
     settingLabel: {
         flex: 1,
+        color: colors.text,
         fontSize: 16,
     },
 
-    toggleButton: {
-        paddingVertical: 6,
-        paddingHorizontal: 16,
-        borderRadius: 12,
-        borderWidth: 1,
-    },
-
-    toggleActive: {
-        opacity: 0.7,
-    },
-
-    toggleText: {
-        fontWeight: "700",
-    },
+    iconContainer: {
+        width: 24,
+        alignItems: "center",
+    }
 });

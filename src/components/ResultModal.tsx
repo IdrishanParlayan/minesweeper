@@ -2,6 +2,7 @@ import { View, Text, Pressable, StyleSheet } from "react-native";
 import { BlurView } from "expo-blur";
 import type { GameStatus } from "../types/game";
 import { FontAwesome } from "@expo/vector-icons";
+import { colors, spacing, radius } from "../theme/theme";
 
 
 type Props = {
@@ -16,21 +17,29 @@ export default function ResultModal({ status, onHome, onReset }: Props) {
 
     const title = status === "won" ? "You Won!" : "Game Over!";
     const subtitle = status === "won" ? "Nice Work!" : "You hit a mine.";
+    const iconName = status === "won" ? "trophy" : "bomb";
 
     return (
-        <View  style={styles.overlay}>
-            <BlurView intensity={25} style={StyleSheet.absoluteFillObject} />
+        <View style={styles.overlay}>
+            <BlurView intensity={60} style={StyleSheet.absoluteFillObject} />
 
             <View style={styles.modal}>
+                <FontAwesome
+                    name={iconName}
+                    size={40}
+                    color={status === "won" ? "#FACC15" : "#EF4444"}
+                />
                 <Text style={styles.title}>{title}</Text>
                 <Text style={styles.subtitle}>{subtitle}</Text>
 
-                <Pressable style={styles.primaryBtn} onPress={onHome}>
-                    <FontAwesome name="home" size={16} color="black" />
+                <Pressable style={styles.primaryBtn} onPress={onReset}>
+                    <FontAwesome name="refresh" size={16} color="white" />
+                    <Text style={styles.primaryText}>Play Again</Text>
                 </Pressable>
 
-                <Pressable style={styles.secondaryBtn} onPress={onReset}>
-                    <FontAwesome name="refresh" size={16} color="black" />
+                <Pressable style={styles.secondaryBtn} onPress={onHome}>
+                    <FontAwesome name="home" size={16} color={colors.text} />
+                    <Text style={styles.secondaryText}>Home</Text>
                 </Pressable>
             </View>
         </View>
@@ -46,48 +55,69 @@ const styles = StyleSheet.create({
         bottom: 0,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "rgba(0,0,0,0.15)",
+        backgroundColor: "rgba(0,0,0,0.35)",
     },
+
     modal: {
         width: 280,
-        padding: 22,
-        borderRadius: 18,
-        backgroundColor: "white",
+        padding: spacing.lg,
+        borderRadius: radius.lg,
+        backgroundColor: colors.surface,
         alignItems: "center",
-        gap: 12,
+        gap: spacing.sm,
+
+        shadowColor: "#000",
+        shadowOpacity: 0.3,
+        shadowRadius: 20,
+        shadowOffset: { width: 0, height: 10 },
+        elevation: 10,
     },
+
     title: {
-        fontSize: 20,
-        fontWeight: "800",
+        fontSize: 24,
+        fontWeight: "900",
+        color: colors.text,
     },
+
     subtitle: {
         fontSize: 14,
-        opacity: 0.8,
-        marginBottom: 6,
+        color: colors.textSecondary,
+        marginBottom: spacing.sm,
     },
+
     primaryBtn: {
         width: "100%",
-        height: 44,
-        borderRadius: 14,
+        height: 46,
+        borderRadius: radius.md,
+        backgroundColor: colors.primary,
         alignItems: "center",
         justifyContent: "center",
-        borderWidth: 1,
+        flexDirection: "row",
+        gap: 8,
     },
+
     primaryText: {
         fontSize: 16,
         fontWeight: "800",
+        color: "white",
     },
+
     secondaryBtn: {
         width: "100%",
-        height: 44,
-        borderRadius: 14,
+        height: 46,
+        borderRadius: radius.md,
+        backgroundColor: colors.surface,
+        borderWidth: 1,
+        borderColor: colors.border,
         alignItems: "center",
         justifyContent: "center",
-        borderWidth: 1,
-        opacity: 0.9,
+        flexDirection: "row",
+        gap: 8,
     },
+
     secondaryText: {
         fontSize: 16,
         fontWeight: "700",
+        color: colors.text,
     },
 });

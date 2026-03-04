@@ -1,6 +1,8 @@
 import type { Cell, GameStatus } from "../types/game";
 import {Pressable, StyleSheet, Text, ViewStyle} from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import { colors } from "../theme/theme";
+
 
 type Props = {
     readonly cell: Cell;
@@ -33,31 +35,39 @@ const styles = StyleSheet.create({
     cell: {
         width: 38,
         height: 38,
-        borderRadius: 6,
-        backgroundColor: "#d6d6d6",
+        borderRadius: 8,
+        backgroundColor: colors.cell,
+
         borderTopWidth: 3,
         borderLeftWidth: 3,
         borderRightWidth: 3,
         borderBottomWidth: 3,
-        borderTopColor: "#ffffff",
-        borderLeftColor: "#ffffff",
-        borderRightColor: "#999999",
-        borderBottomColor: "#999999",
+
+        borderTopColor: colors.cellHighlight,
+        borderLeftColor: colors.cellHighlight,
+
+        borderRightColor: colors.cellShadow,
+        borderBottomColor: colors.cellShadow,
+
         alignItems: "center",
         justifyContent: "center",
         margin: 3,
     },
 
     cellRevealed: {
-        backgroundColor: "#c0c0c0",
-        borderTopColor: "#999999",
-        borderLeftColor: "#999999",
-        borderRightColor: "#ffffff",
-        borderBottomColor: "#ffffff",
+        backgroundColor: colors.cellRevealed,
+        borderTopWidth: 0,
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
+        borderBottomWidth: 0,
     },
 
     cellFlagged: {
-        backgroundColor: "#ffe0e0",
+        backgroundColor: colors.cellFlagged,
+        borderTopWidth: 0,
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
+        borderBottomWidth: 0,
     },
 
     text: {
