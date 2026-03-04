@@ -2,7 +2,7 @@ import { View, Text, Pressable, StyleSheet } from "react-native";
 import { BlurView } from "expo-blur";
 import { FontAwesome } from "@expo/vector-icons";
 import {GameStatus} from "../types/game";
-
+import { useSound } from "../context/SoundContext";
 
 type Props = {
     readonly status: GameStatus;
@@ -13,6 +13,8 @@ type Props = {
 
 export default function PauseModal({ status, onContinue, onReset, onHome }: Props) {
     if (status !== "idle") return null;
+
+    const { soundStatus, setSoundStatus } = useSound();
 
     return (
         <View style={styles.overlay}>
@@ -32,6 +34,16 @@ export default function PauseModal({ status, onContinue, onReset, onHome }: Prop
                 <Pressable style={styles.button} onPress={onHome}>
                     <FontAwesome name="home" size={16} color="black" />
                 </Pressable>
+
+                <View style={styles.settingRow}>
+                    <FontAwesome name={soundStatus === "on" ? "volume-up" : "volume-off"} size={16} color="black"/>
+
+                    <Text style={styles.settingLabel}>Sound</Text>
+
+                    <Pressable style={styles.toggle} onPress={() => setSoundStatus(soundStatus === "on" ? "off" : "on")}>
+                        <Text style={styles.toggleText}>{soundStatus === "on" ? "ON" : "OFF"}</Text>
+                    </Pressable>
+                </View>
             </View>
         </View>
     );
@@ -74,5 +86,29 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 16,
         fontWeight: "600",
+    },
+
+    settingRow: {
+        width: "100%",
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 10,
+        marginBottom: 6,
+    },
+
+    settingLabel: {
+        flex: 1,
+        fontSize: 16,
+    },
+
+    toggle: {
+        paddingVertical: 4,
+        paddingHorizontal: 12,
+        borderRadius: 10,
+        borderWidth: 1,
+    },
+
+    toggleText: {
+        fontWeight: "700",
     },
 });

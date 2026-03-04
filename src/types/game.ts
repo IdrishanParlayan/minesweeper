@@ -2,6 +2,8 @@ export type GameMode = 'dig' | 'flag';
 
 export type GameStatus = 'idle' | 'playing' | 'won' | 'lost';
 
+export type SoundStatus = 'on' | 'off';
+
 export interface Cell {
     row: number;
     col: number;

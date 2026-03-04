@@ -3,6 +3,7 @@ import {Board, Cell, GameMode, GameStatus} from "../types/game";
 import { generateBoard } from "../utils/generateBoard";
 import { revealCells } from "../utils/revealCells";
 import { useAudioPlayer } from "expo-audio";
+import { useSound } from "../context/SoundContext";
 
 
 type UseGameParams = {
@@ -17,6 +18,7 @@ export function useGame({ size, mines }: UseGameParams) {
     const bombSound = useAudioPlayer(require("../../assets/sounds/bomb.mp3"));
     const revealSound = useAudioPlayer(require("../../assets/sounds/reveal.mp3"));
     const winSound = useAudioPlayer(require("../../assets/sounds/win.mp3"));
+    const { soundStatus } = useSound();
 
     const handleCellPress = (row: number, col: number) => {
         if (status !== "playing") return;
@@ -75,16 +77,19 @@ export function useGame({ size, mines }: UseGameParams) {
     }
 
     const playBomb = () => {
+        if (soundStatus === "off") return;
         bombSound.seekTo(0);
         bombSound.play();
     };
 
     const playReveal = () => {
+        if (soundStatus === "off") return;
         revealSound.seekTo(0);
         revealSound.play();
     };
 
     const playWin = () => {
+        if (soundStatus === "off") return;
         winSound.seekTo(0);
         winSound.play();
     };
