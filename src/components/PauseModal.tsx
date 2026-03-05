@@ -2,8 +2,8 @@ import {View, Text, Pressable, StyleSheet, Switch} from "react-native";
 import { BlurView } from "expo-blur";
 import { FontAwesome } from "@expo/vector-icons";
 import {GameStatus} from "../types/game";
-import { useSound } from "../context/SoundContext";
-import { colors, spacing, radius } from "../theme/theme";
+import { spacing, radius } from "../theme/theme";
+import {useSettings} from "../context/SettingsContext";
 
 type Props = {
     readonly status: GameStatus;
@@ -14,8 +14,11 @@ type Props = {
 
 export default function PauseModal({ status, onContinue, onReset, onHome }: Props) {
     if (status !== "idle") return null;
+    const { colors } = useSettings();
+    const styles = createStyles(colors);
 
-    const { soundStatus, setSoundStatus } = useSound();
+    const { soundStatus, setSoundStatus } = useSettings();
+    const { theme, setTheme } = useSettings();
 
     return (
         <View style={styles.overlay}>
@@ -41,7 +44,7 @@ export default function PauseModal({ status, onContinue, onReset, onHome }: Prop
 
                 <View style={styles.settingRow}>
                     <View style={styles.iconContainer}>
-                        <FontAwesome name={soundStatus === "on" ? "volume-up" : "volume-off"} size={18} color="white"/>
+                        <FontAwesome name={soundStatus === "on" ? "volume-up" : "volume-off"} size={18} color={colors.text}/>
                     </View>
 
                     <Text style={styles.settingLabel}>Sound</Text>
@@ -53,78 +56,97 @@ export default function PauseModal({ status, onContinue, onReset, onHome }: Prop
                         thumbColor={"#fff"}
                     />
                 </View>
+                <View style={styles.settingRow}>
+                    <View style={styles.iconContainer}>
+                        <FontAwesome
+                            name={theme === "dark" ? "moon-o" : "sun-o"}
+                            size={18}
+                            color={colors.text}
+                        />
+                    </View>
+
+                    <Text style={styles.settingLabel}>Theme</Text>
+
+                    <Switch
+                        value={theme === "dark"}
+                        onValueChange={(value) => setTheme(value ? "dark" : "light")}
+                        trackColor={{ false: "#334155", true: "#6366F1" }}
+                        thumbColor={"#fff"}
+                    />
+                </View>
             </View>
         </View>
     );
 }
 
-const styles = StyleSheet.create({
-    overlay: {
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        justifyContent: "center",
-        alignItems: "center",
-    },
+const createStyles = (colors: any) =>
+    StyleSheet.create({
+        overlay: {
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            justifyContent: "center",
+            alignItems: "center",
+        },
 
-    modal: {
-        width: 280,
-        padding: spacing.lg,
-        borderRadius: radius.lg,
-        backgroundColor: colors.surface,
-        alignItems: "center",
-        gap: spacing.sm,
+        modal: {
+            width: 280,
+            padding: spacing.lg,
+            borderRadius: radius.lg,
+            backgroundColor: colors.surface,
+            alignItems: "center",
+            gap: spacing.sm,
 
-        shadowColor: "#000",
-        shadowOpacity: 0.3,
-        shadowRadius: 20,
-        shadowOffset: { width: 0, height: 10 },
+            shadowColor: "#000",
+            shadowOpacity: 0.3,
+            shadowRadius: 20,
+            shadowOffset: { width: 0, height: 10 },
 
-        elevation: 10,
-    },
+            elevation: 10,
+        },
 
-    title: {
-        fontSize: 22,
-        fontWeight: "800",
-        color: colors.text,
-        marginBottom: spacing.sm,
-    },
+        title: {
+            fontSize: 22,
+            fontWeight: "800",
+            color: colors.text,
+            marginBottom: spacing.sm,
+        },
 
-    button: {
-        width: "100%",
-        paddingVertical: 12,
-        borderRadius: radius.md,
-        backgroundColor: colors.primary,
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 8,
-    },
+        button: {
+            width: "100%",
+            paddingVertical: 12,
+            borderRadius: radius.md,
+            backgroundColor: colors.primary,
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 8,
+        },
 
-    buttonText: {
-        fontSize: 16,
-        fontWeight: "700",
-        color: "white",
-    },
+        buttonText: {
+            fontSize: 16,
+            fontWeight: "700",
+            color: "white",
+        },
 
-    settingRow: {
-        width: "100%",
-        flexDirection: "row",
-        alignItems: "center",
-        gap: spacing.sm,
-        marginTop: spacing.sm,
-    },
+        settingRow: {
+            width: "100%",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: spacing.sm,
+            marginTop: spacing.sm,
+        },
 
-    settingLabel: {
-        flex: 1,
-        fontSize: 16,
-        color: colors.text,
-    },
+        settingLabel: {
+            flex: 1,
+            fontSize: 16,
+            color: colors.text,
+        },
 
-    iconContainer: {
-        width: 24,
-        alignItems: "center",
-    }
-});
+        iconContainer: {
+            width: 24,
+            alignItems: "center",
+        }
+    });

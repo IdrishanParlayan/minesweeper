@@ -4,7 +4,7 @@ import {Board, Cell, GameMode, GameStatus} from "../types/game";
 import { generateBoard } from "../utils/generateBoard";
 import { revealCells } from "../utils/revealCells";
 import { useAudioPlayer } from "expo-audio";
-import { useSound } from "../context/SoundContext";
+import {useSettings} from "../context/SettingsContext";
 
 
 type UseGameParams = {
@@ -22,7 +22,7 @@ export function useGame({ size, mines }: UseGameParams) {
     const bombSound = useAudioPlayer(require("../../assets/sounds/bomb.mp3"));
     const revealSound = useAudioPlayer(require("../../assets/sounds/reveal.mp3"));
     const winSound = useAudioPlayer(require("../../assets/sounds/win.mp3"));
-    const { soundStatus } = useSound();
+    const { soundStatus } = useSettings();
 
     useEffect(() => {
         if (status !== "playing") return;
@@ -98,6 +98,7 @@ export function useGame({ size, mines }: UseGameParams) {
         setStatus("playing");
         setMode("dig");
         setHintCount(3);
+        setTime(0);
         setRemainingFlags(mines);
         setBoard(generateBoard({ size: size, mines: mines }));
     }

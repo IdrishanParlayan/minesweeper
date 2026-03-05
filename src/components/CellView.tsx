@@ -1,8 +1,7 @@
 import type { Cell, GameStatus } from "../types/game";
 import {Pressable, StyleSheet, Text, ViewStyle} from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import { colors } from "../theme/theme";
-
+import {useSettings} from "../context/SettingsContext";
 
 type Props = {
     readonly cell: Cell;
@@ -11,6 +10,9 @@ type Props = {
 };
 
 export default function CellView({ cell, status, onPress }: Props) {
+    const { colors } = useSettings();
+    const styles = createStyles(colors);
+
     const disabled = status !== "playing";
 
     const baseStyle: ViewStyle[] = [styles.cell];
@@ -28,50 +30,50 @@ export default function CellView({ cell, status, onPress }: Props) {
             <Text style={styles.text}>{label}</Text>
         </Pressable>
     );
-
 }
 
-const styles = StyleSheet.create({
-    cell: {
-        width: 38,
-        height: 38,
-        borderRadius: 8,
-        backgroundColor: colors.cell,
+const createStyles = (colors: any) =>
+    StyleSheet.create({
+        cell: {
+            width: 38,
+            height: 38,
+            borderRadius: 8,
+            backgroundColor: colors.cell,
 
-        borderTopWidth: 3,
-        borderLeftWidth: 3,
-        borderRightWidth: 3,
-        borderBottomWidth: 3,
+            borderTopWidth: 3,
+            borderLeftWidth: 3,
+            borderRightWidth: 3,
+            borderBottomWidth: 3,
 
-        borderTopColor: colors.cellHighlight,
-        borderLeftColor: colors.cellHighlight,
+            borderTopColor: colors.cellHighlight,
+            borderLeftColor: colors.cellHighlight,
 
-        borderRightColor: colors.cellShadow,
-        borderBottomColor: colors.cellShadow,
+            borderRightColor: colors.cellShadow,
+            borderBottomColor: colors.cellShadow,
 
-        alignItems: "center",
-        justifyContent: "center",
-        margin: 3,
-    },
+            alignItems: "center",
+            justifyContent: "center",
+            margin: 3,
+        },
 
-    cellRevealed: {
-        backgroundColor: colors.cellRevealed,
-        borderTopWidth: 0,
-        borderLeftWidth: 0,
-        borderRightWidth: 0,
-        borderBottomWidth: 0,
-    },
+        cellRevealed: {
+            backgroundColor: colors.cellRevealed,
+            borderTopWidth: 0,
+            borderLeftWidth: 0,
+            borderRightWidth: 0,
+            borderBottomWidth: 0,
+        },
 
-    cellFlagged: {
-        backgroundColor: colors.cellFlagged,
-        borderTopWidth: 0,
-        borderLeftWidth: 0,
-        borderRightWidth: 0,
-        borderBottomWidth: 0,
-    },
+        cellFlagged: {
+            backgroundColor: colors.cellFlagged,
+            borderTopWidth: 0,
+            borderLeftWidth: 0,
+            borderRightWidth: 0,
+            borderBottomWidth: 0,
+        },
 
-    text: {
-        fontSize: 16,
-        fontWeight: "800",
-    },
-});
+        text: {
+            fontSize: 16,
+            fontWeight: "800",
+        },
+    });

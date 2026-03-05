@@ -1,9 +1,7 @@
 import {StyleSheet, View} from "react-native";
 import type { Board, GameStatus } from "../types/game";
 import CellView from "./CellView";
-import { colors } from "../theme/theme";
-
-
+import {useSettings} from "../context/SettingsContext";
 
 type Props = {
     readonly board: Board;
@@ -12,6 +10,8 @@ type Props = {
 };
 
 export default function BoardView({ board, status, onCellPress }: Props) {
+    const { colors } = useSettings();
+    const styles = createStyles(colors);
 
     return(
       <View style={styles.wrapper}>
@@ -31,14 +31,15 @@ export default function BoardView({ board, status, onCellPress }: Props) {
 
 }
 
-const styles = StyleSheet.create({
-    wrapper: {
-        padding: 8,
-        borderRadius: 16,
-        backgroundColor: colors.board,
-    },
-    row: {
-        flexDirection: "row",
-        justifyContent: "center",
-    },
-});
+const createStyles = (colors: any) =>
+    StyleSheet.create({
+        wrapper: {
+            padding: 8,
+            borderRadius: 16,
+            backgroundColor: colors.board,
+        },
+        row: {
+            flexDirection: "row",
+            justifyContent: "center",
+        },
+    });

@@ -8,7 +8,8 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/AppNavigator";
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
-import { colors, spacing, radius } from "../theme/theme";
+import { spacing, radius } from "../theme/theme";
+import {useSettings} from "../context/SettingsContext";
 
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
@@ -16,6 +17,8 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Home">;
 
 export default function GameScreen() {
     const navigation = useNavigation<NavigationProp>();
+    const { colors } = useSettings();
+    const styles = createStyles(colors);
 
     const {
         board,
@@ -84,7 +87,7 @@ export default function GameScreen() {
                     onPress={() => toggleStatus("idle")}
                     style={styles.pauseBtn}
                 >
-                    <MaterialCommunityIcons name="pause" size={24} color={"white"}/>
+                    <MaterialCommunityIcons name="pause" size={24} color={colors.text}/>
                 </Pressable>
             </View>
 
@@ -104,81 +107,82 @@ export default function GameScreen() {
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.background,
-        paddingHorizontal: spacing.md,
-        justifyContent: "center",
-    },
+const createStyles = (colors: any) =>
+    StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: colors.background,
+            paddingHorizontal: spacing.md,
+            justifyContent: "center",
+        },
 
-    header: {
-        alignItems: "center",
-        paddingVertical: spacing.sm,
-        marginBottom: spacing.md,
-    },
+        header: {
+            alignItems: "center",
+            paddingVertical: spacing.sm,
+            marginBottom: spacing.md,
+        },
 
-    title: {
-        fontSize: 26,
-        fontWeight: "800",
-        color: colors.text,
-    },
+        title: {
+            fontSize: 26,
+            fontWeight: "800",
+            color: colors.text,
+        },
 
-    infoBar: {
-        flexDirection: "row",
-        gap: spacing.sm,
-        marginBottom: spacing.md,
-    },
+        infoBar: {
+            flexDirection: "row",
+            gap: spacing.sm,
+            marginBottom: spacing.md,
+        },
 
-    infoBox: {
-        flex: 1,
-        height: 44, // Dig / Flag / Pause ile aynı
-        borderRadius: radius.md,
-        backgroundColor: colors.surface,
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "row",
-        gap: 6,
-    },
+        infoBox: {
+            flex: 1,
+            height: 44, // Dig / Flag / Pause ile aynı
+            borderRadius: radius.md,
+            backgroundColor: colors.surface,
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "row",
+            gap: 6,
+        },
 
-    infoText: {
-        fontSize: 16,
-        fontWeight: "800",
-        color: colors.text,
-    },
+        infoText: {
+            fontSize: 16,
+            fontWeight: "800",
+            color: colors.text,
+        },
 
-    boardArea: {
-        alignItems: "center",
-        justifyContent: "flex-start",
-        paddingTop: spacing.md,
-    },
+        boardArea: {
+            alignItems: "center",
+            justifyContent: "flex-start",
+            paddingTop: spacing.md,
+        },
 
-    controls: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: spacing.sm,
-        marginTop: spacing.md,
-    },
+        controls: {
+            flexDirection: "row",
+            alignItems: "center",
+            gap: spacing.sm,
+            marginTop: spacing.md,
+        },
 
-    modeBtn: {
-        flex: 1,
-        height: 44,
-        borderRadius: radius.md,
-        backgroundColor: colors.surface,
-        alignItems: "center",
-        justifyContent: "center",
-    },
+        modeBtn: {
+            flex: 1,
+            height: 44,
+            borderRadius: radius.md,
+            backgroundColor: colors.surface,
+            alignItems: "center",
+            justifyContent: "center",
+        },
 
-    modeBtnActive: {
-        backgroundColor: colors.primary,
-    },
+        modeBtnActive: {
+            backgroundColor: colors.primary,
+        },
 
-    pauseBtn: {
-        height: 44,
-        paddingHorizontal: spacing.md,
-        borderRadius: radius.md,
-        backgroundColor: colors.surface,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-});
+        pauseBtn: {
+            height: 44,
+            paddingHorizontal: spacing.md,
+            borderRadius: radius.md,
+            backgroundColor: colors.surface,
+            alignItems: "center",
+            justifyContent: "center",
+        },
+    });
