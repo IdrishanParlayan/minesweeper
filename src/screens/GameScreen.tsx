@@ -21,7 +21,12 @@ export default function GameScreen() {
         board,
         mode,
         status,
+        remainingFlags,
+        time,
+        hintCount,
         handleCellPress,
+        formatTime,
+        handleHint,
         toggleMode,
         toggleStatus,
         resetGame,
@@ -32,6 +37,30 @@ export default function GameScreen() {
         <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
             <View style={styles.header}>
                 <Text style={styles.title}>Minesweeper</Text>
+            </View>
+
+            <View style={styles.infoBar}>
+
+                <View style={styles.infoBox}>
+                    <FontAwesome name="flag" size={16} color={colors.text} />
+                    <Text style={styles.infoText}>
+                        {remainingFlags.toString().padStart(2, "0")}
+                    </Text>
+                </View>
+
+                <View style={styles.infoBox}>
+                    <FontAwesome name="clock-o" size={16} color={colors.text} />
+                    <Text style={styles.infoText}>
+                        {formatTime(time)}
+                    </Text>
+                </View>
+
+                <Pressable style={styles.infoBox} onPress={handleHint}>
+                    <MaterialCommunityIcons name="lightbulb-on-outline" size={16} color={colors.text}/>
+                    <Text style={styles.infoText}>x {hintCount}</Text>
+                </Pressable>
+
+
             </View>
 
             <View style={styles.boardArea}>
@@ -86,10 +115,34 @@ const styles = StyleSheet.create({
     header: {
         alignItems: "center",
         paddingVertical: spacing.sm,
+        marginBottom: spacing.md,
     },
 
     title: {
         fontSize: 26,
+        fontWeight: "800",
+        color: colors.text,
+    },
+
+    infoBar: {
+        flexDirection: "row",
+        gap: spacing.sm,
+        marginBottom: spacing.md,
+    },
+
+    infoBox: {
+        flex: 1,
+        height: 44, // Dig / Flag / Pause ile aynı
+        borderRadius: radius.md,
+        backgroundColor: colors.surface,
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "row",
+        gap: 6,
+    },
+
+    infoText: {
+        fontSize: 16,
         fontWeight: "800",
         color: colors.text,
     },
