@@ -42,7 +42,7 @@ export default function ResultModal({ status, onHome, onReset }: Props) {
 
                 <Pressable style={styles.primaryBtn} onPress={onHome}>
                     <FontAwesome name="home" size={16} color={colors.text} />
-                    <Text style={styles.secondaryText}>Home</Text>
+                    <Text style={styles.primaryText}>Home</Text>
                 </Pressable>
             </View>
         </View>

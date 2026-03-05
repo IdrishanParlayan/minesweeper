@@ -195,3 +195,35 @@ assets/
   - win.mp3
 
 Sound effects used during gameplay.
+
+---
+
+## Screenshots
+
+### Home Screen
+
+<p align="center">
+  <img src="screenshots/home-screen-light.PNG" width="250"/>
+  <img src="screenshots/home-screen-dark.PNG" width="250"/>
+</p>
+
+### Game Screen
+
+<p align="center">
+  <img src="screenshots/game-screen-light.PNG" width="250"/>
+  <img src="screenshots/game-screen-dark.PNG" width="250"/>
+</p>
+
+### Pause Modal
+
+<p align="center">
+  <img src="screenshots/pause-modal-light.PNG" width="250"/>
+  <img src="screenshots/pause-modal-dark.PNG" width="250"/>
+</p>
+
+### Reasult Modal
+
+<p align="center">
+  <img src="screenshots/result-modal-light.PNG" width="250"/>
+  <img src="screenshots/result-modal-dark.PNG" width="250"/>
+</p>
